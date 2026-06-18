@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export function getImagesByQuery(searchString) {
+export async function getImagesByQuery(searchString) {
   const params = {                                        // создаем параметры для запроса
     q: searchString,
     image_type: "photo",
@@ -13,7 +13,9 @@ export function getImagesByQuery(searchString) {
   const urlAXIOS = `?key=${API_KEY}`;                     // создаем строку поиска для запроса
   // const urlAXIOS = `?key=${API_KEY}&q=${this.#query}&page=${this.#page}&per_page=${this.#per_page}`;
 
-  return axios.get(urlAXIOS, { params });                 // axios get-запрос и возврат промиса
+  const data = await axios.get(urlAXIOS, { params });
+  
+  return data;                 // axios get-запрос и возврат промиса
 }
 
  class PixabayAPI {

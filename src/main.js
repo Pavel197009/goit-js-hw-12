@@ -20,12 +20,12 @@ function handleSearchPhoto(e) {
     let searchString = e.currentTarget.elements.search_text.value.trim().split(" ").join("+");  // преобразование строки поиска для HTTP-запроса
     clearGallery();                                                             // очистка галереи
     showLoader();                                                               // светим лоадер
-    let data = getImagesByQuery(searchString).then(res => {                     // обработчик промиса 
-        if (!res.data.total) {                                                  // если ничего не вернули из запроса
-            iziToast.error({ position: 'topRight', message: `Sorry, there are no images matching your search query. Please try again!` });
-        } else {                                                                // иначе строим галерею с картинками
-            createGallery(res.data.hits);
-        }
-        hideLoader();                                                           // гасим лоадер после загрузки картинок
-    });    
+    let res = getImagesByQuery(searchString);
+    console.log(res.data);                    // обработчик промиса
+    if (res.data.total) {                                                  // если ничего не вернули из запроса
+        iziToast.error({ position: 'topRight', message: `Sorry, there are no images matching your search query. Please try again!` });
+    } else {                                                                // иначе строим галерею с картинками
+        createGallery(res.data.hits);
+    }
+    hideLoader();                                                           // гасим лоадер после загрузки картинок
 }
