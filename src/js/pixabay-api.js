@@ -1,30 +1,38 @@
 import axios from 'axios';
 
-export async function getImagesByQuery(searchString) {
-  const params = {                                        // создаем параметры для запроса
-    q: searchString,
-    image_type: "photo",
-    orientation: "horizontal",
-    safeSearch: true,
-  };
 
-  axios.defaults.baseURL = 'https://pixabay.com/api/';    // URL-путь для запроса
-  const API_KEY = '28194821-49041d995ecd04735d9e20d11';   // ключ для запроса
-  const urlAXIOS = `?key=${API_KEY}`;                     // создаем строку поиска для запроса
+export class PixabayAPI {
+  constructor() {
+    this.currentPage = 0;
+    this.totalPhotos = 0;
+    this.per_page = 15;
+    this.maxPages = 0;
+    this.loadedPhotos = 0;
+  }
+  
+  async getImagesByQuery(searchString, page) {
+    const params = {                                        // создаем параметры для запроса
+      q: searchString,
+      image_type: "photo",
+      orientation: "horizontal",
+      safeSearch: true,
+      per_page: 15,
+      page: page,
+    };
+
+    axios.defaults.baseURL = 'https://pixabay.com/api/';    // URL-путь для запроса
+    const API_KEY = '28194821-49041d995ecd04735d9e20d11';   // ключ для запроса
+    const urlAXIOS = `?key=${API_KEY}`;                     // создаем строку поиска для запроса
   // const urlAXIOS = `?key=${API_KEY}&q=${this.#query}&page=${this.#page}&per_page=${this.#per_page}`;
 
-  const data = await axios.get(urlAXIOS, { params });
-  
-  return data;                 // axios get-запрос и возврат промиса
-}
-
- class PixabayAPI {
-  #page = 1;
-  #per_page = 40;
-  #query = '';
-  #totalPhotos = 0;
-
-
+    const res = await axios.get(urlAXIOS, { params });
+    if (!this.currentPage) {
+      this.maxPages = Math.ceil(res.data.total / this.per_page);
+    }
+    this.currentPage +=1;
+    this.loadedPhotos += res.data.hits.len;
+    return res.data;                 // axios get-запрос и возврат промиса
+  }
 
   //get query() {
     // this.#query;
@@ -44,7 +52,7 @@ export async function getImagesByQuery(searchString) {
   //}
 
   //setTotal(total) {
-  //  this.#totalPhotos = total;
+  //  this.totalPhotos = total;
   //}
 
   //hasMorePhotos() {

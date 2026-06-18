@@ -5,4 +5,5 @@ export const refs = {
     searchInput: document.querySelector('.search-form-input'),
     searchBtn: document.querySelector('.search-form-btn'),
     loader: document.querySelector('.loader'),
+    loadMore: document.querySelector(".load-more"),
   };

@@ -163,3 +163,6 @@
   }
 }
 
+.load-more {
+  visibility: hidden;
+}

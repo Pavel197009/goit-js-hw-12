@@ -45,7 +45,7 @@ export function createGallery(photos) {                     // создание 
 </li>
 `
   );
-  refs.gallery.innerHTML = strings.join(" ");               // создание галереи из массива strings
+  refs.gallery.insertAdjacentHTML("beforeend",strings.join(" "));               // создание галереи из массива strings
   lightBox.refresh();                                       // обновление lightBox после построения галереи
 }
 
