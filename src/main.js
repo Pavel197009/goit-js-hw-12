@@ -2,8 +2,8 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
 //import { createMarkup } from './js/render-functions';
-import { getImagesByQuery } from './js/pixabay-api';
-import { clearGallery, createGallery, hideLoader, showLoader, createLightBox } from './js/render-functions';
+import { getImagesByQuery }  from './js/pixabay-api';
+import { clearGallery, createGallery, hideLoader, showLoader, createLightBox }  from './js/render-functions';
 import { refs } from './js/refs';
 
 refs.form.addEventListener("submit", handleSearchPhoto);
