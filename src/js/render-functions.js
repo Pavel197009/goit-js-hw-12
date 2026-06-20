@@ -80,3 +80,6 @@ export function createLightBox() {                    // создание объ
     captionsData: 'alt', captionPosition: 'bottom', captionDelay: 250
 })
 }
+
+
+
