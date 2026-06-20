@@ -28,10 +28,18 @@ export class PixabayAPI {
     const res = await axios.get(urlAXIOS, { params });
     if (!this.currentPage) {
       this.maxPages = Math.ceil(res.data.total / this.per_page);
+      this.totalPhotos = res.data.total;
     }
     this.currentPage +=1;
-    this.loadedPhotos += res.data.hits.len;
+    this.loadedPhotos += res.data.hits.length;
     return res.data;                 // axios get-запрос и возврат промиса
+  }
+
+  resetValues() {
+    this.currentPage = 0;
+    this.totalPhotos = 0;
+    this.maxPages = 0;
+    this.loadedPhotos = 0;
   }
 
   //get query() {

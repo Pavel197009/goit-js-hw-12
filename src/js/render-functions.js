@@ -61,6 +61,20 @@ export function hideLoader() {                        // скрываем лоа
   refs.loader.style.visibility = 'hidden';
 } 
 
+export function hideProgress() {                        // скрываем прогрессбар
+  refs.progresslabel.style.visibility = 'hidden';
+  refs.progressBar.style.visibility = 'hidden';
+  refs.btnUp.style.visibility = 'hidden';
+  refs.btnDown.style.visibility = 'hidden';
+} 
+
+export function showProgress() {                        // делаем прогрессбар видимым
+  refs.progresslabel.style.visibility = 'visible';
+  refs.progressBar.style.visibility = 'visible';
+  refs.btnUp.style.visibility = 'visible';
+  refs.btnDown.style.visibility = 'visible';
+} 
+
 export function createLightBox() {                    // создание объекта SimpleLightBox
   lightBox = new SimpleLightbox('.gallery a', {
     captionsData: 'alt', captionPosition: 'bottom', captionDelay: 250
