@@ -24,7 +24,6 @@ let coords = {
 
 let searchString = "";
 
-createLightBox();
   
 async function handleSearchPhoto(e) {
     e.preventDefault();
@@ -37,38 +36,57 @@ async function handleSearchPhoto(e) {
     clearGallery();                                                             // очистка галереи
     pixabay.resetValues();
     hideProgress();
+    hideLoadMore();
     showLoader();                                                               // светим лоадер
-    let res = await pixabay.getImagesByQuery(searchString, pixabay.currentPage+1);
-    if (!res.total) {                                                  // если ничего не вернули из запроса
-        iziToast.error({ position: 'topRight', message: `Sorry, there are no images matching your search query. Please try again!` });
-        hideLoader();
-        return;
-    } else {                                                                // иначе строим галерею с картинками
-        createGallery(res.hits);
-        refs.progresslabel.textContent = `Downloaded ${pixabay.loadedPhotos} from ${pixabay.totalPhotos}`;
-        refs.progressBar.value = pixabay.loadedPhotos / pixabay.totalPhotos * 100;
-        showProgress();
+    try {
+        let res = await pixabay.getImagesByQuery(searchString, pixabay.currentPage + 1);
+        if (!res.total) {                                                  // если ничего не вернули из запроса
+            iziToast.error({ position: 'topRight', message: `Sorry, there are no images matching your search query. Please try again!` });
+            hideLoader();
+            return;
+        } else {                                                                // иначе строим галерею с картинками
+            createGallery(res.hits);
+            refs.progresslabel.textContent = `Downloaded ${pixabay.loadedPhotos} from ${pixabay.totalPhotos}`;
+            refs.progressBar.value = pixabay.loadedPhotos / pixabay.totalPhotos * 100;
+            showProgress();
+        }
+        if (pixabay.currentPage < pixabay.maxPages) {
+            showLoadMore();
+        } else {
+            iziToast.info({ position: 'topRight', message: "We're sorry, but you've reached the end of search results." });
+        }
+        hideLoader();                                                           // гасим лоадер после загрузки картинок
+        scrollToEnd();
+    } catch (error) {
+        iziToast.error({ position: 'topRight', message: "Something went wrong!" });
+        clearGallery();                                                             // очистка галереи
+        pixabay.resetValues();
+        hideProgress();
+        hideLoadMore();
     }
-    if (pixabay.currentPage < pixabay.maxPages) {
-        showLoadMore();
-    } else {
-        iziToast.error({ position: 'topRight', message: "We're sorry, but you've reached the end of search results." });
-    }
-    hideLoader();                                                           // гасим лоадер после загрузки картинок
 }
 
 async function handleLoadMore() {
     hideLoadMore();
-    let res = await pixabay.getImagesByQuery(searchString, pixabay.currentPage + 1);
-    createGallery(res.hits);
-    refs.progresslabel.textContent = `Downloaded ${pixabay.loadedPhotos} from ${pixabay.totalPhotos}`
-    refs.progressBar.value = pixabay.loadedPhotos / pixabay.totalPhotos * 100;
-    if (pixabay.currentPage < pixabay.maxPages) {
-        showLoadMore();
-    } else {
+    try {
+        let res = await pixabay.getImagesByQuery(searchString, pixabay.currentPage + 1);
+        createGallery(res.hits);
+        refs.progresslabel.textContent = `Downloaded ${pixabay.loadedPhotos} from ${pixabay.totalPhotos}`
+        refs.progressBar.value = pixabay.loadedPhotos / pixabay.totalPhotos * 100;
+        if (pixabay.currentPage < pixabay.maxPages) {
+            showLoadMore();
+        } else {
+            hideLoadMore();
+            iziToast.info({ position: 'topRight', message: "We're sorry, but you've reached the end of search results." });
+        }
+        scrollToEnd();
+    } catch (error) {
+        iziToast.error({ position: 'topRight', message: "Something went wrong!" });
+        clearGallery();                                                             // очистка галереи
+        pixabay.resetValues();
+        hideProgress();
         hideLoadMore();
-        iziToast.error({ position: 'topRight', message: "We're sorry, but you've reached the end of search results." });
-    }
+    }      
 }
 
 function scrollUp() {
@@ -84,5 +102,12 @@ function scrollDown() {
   window.scrollBy({
     top: coords.height * 2,
     behavior: 'smooth',
+  });
+}
+
+function scrollToEnd() {
+  window.scrollTo({
+    top: document.body.scrollHeight,
+    behavior: "smooth"
   });
 }

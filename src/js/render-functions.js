@@ -5,6 +5,7 @@ import { refs } from './refs';
 import SimpleLightbox from 'simplelightbox';
 import "simplelightbox/dist/simple-lightbox.min.css";
 let lightBox = null;
+createLightBox();
 
 export function createGallery(photos) {                     // создание галереи по данным HTTP-запроса
   const strings = photos
