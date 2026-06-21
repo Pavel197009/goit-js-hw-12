@@ -56,21 +56,24 @@ async function handleSearchPhoto(e) {
             iziToast.info({ position: 'topRight', message: "We're sorry, but you've reached the end of search results." });
         }
         hideLoader();                                                           // гасим лоадер после загрузки картинок
-        scrollToEnd();
+        scrollDown();
     } catch (error) {
         iziToast.error({ position: 'topRight', message: "Something went wrong!" });
         clearGallery();                                                             // очистка галереи
         pixabay.resetValues();
         hideProgress();
         hideLoadMore();
+        hideLoader();
     }
 }
 
 async function handleLoadMore() {
     hideLoadMore();
+    showLoader();
     try {
         let res = await pixabay.getImagesByQuery(searchString, pixabay.currentPage + 1);
         createGallery(res.hits);
+        hideLoader();
         refs.progresslabel.textContent = `Downloaded ${pixabay.loadedPhotos} from ${pixabay.totalPhotos}`
         refs.progressBar.value = pixabay.loadedPhotos / pixabay.totalPhotos * 100;
         if (pixabay.currentPage < pixabay.maxPages) {
@@ -79,13 +82,14 @@ async function handleLoadMore() {
             hideLoadMore();
             iziToast.info({ position: 'topRight', message: "We're sorry, but you've reached the end of search results." });
         }
-        scrollToEnd();
+        scrollDown();
     } catch (error) {
         iziToast.error({ position: 'topRight', message: "Something went wrong!" });
         clearGallery();                                                             // очистка галереи
         pixabay.resetValues();
         hideProgress();
         hideLoadMore();
+        hideLoader();
     }      
 }
 
