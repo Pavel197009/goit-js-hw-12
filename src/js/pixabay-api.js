@@ -27,11 +27,11 @@ export class PixabayAPI {
   // const urlAXIOS = `?key=${API_KEY}&q=${this.#query}&page=${this.#page}&per_page=${this.#per_page}`;
 
     const res = await axios.get(urlAXIOS, { params });
-    if (!page) {
+    if (!(page-1)) {
       this.maxPages = Math.ceil(res.data.total / this.per_page);
       this.totalPhotos = res.data.total;
     }
-    this.currentPage +=1;
+    this.currentPage = page;
     this.loadedPhotos += res.data.hits.length;
     return res.data;                 // axios get-запрос и возврат промиса
   }
