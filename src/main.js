@@ -3,7 +3,7 @@ import "izitoast/dist/css/iziToast.min.css";
 
 //import { createMarkup } from './js/render-functions';
 import { PixabayAPI }  from './js/pixabay-api';
-import { clearGallery, createGallery, hideLoader, showLoader, createLightBox, hideProgress, showProgress }  from './js/render-functions';
+import { clearGallery, createGallery, hideLoader, showLoader, createLightBox, hideProgress, showProgress, showLoadMore, hideLoadMore }  from './js/render-functions';
 import { refs } from './js/refs';
 
 refs.form.addEventListener("submit", handleSearchPhoto);
@@ -50,7 +50,7 @@ async function handleSearchPhoto(e) {
         showProgress();
     }
     if (pixabay.currentPage < pixabay.maxPages) {
-        refs.loadMore.style.visibility = "visible";
+        showLoadMore();
     } else {
         iziToast.error({ position: 'topRight', message: "We're sorry, but you've reached the end of search results." });
     }
@@ -58,14 +58,15 @@ async function handleSearchPhoto(e) {
 }
 
 async function handleLoadMore() {
-    refs.loadMore.style.visibility = "hidden";
+    hideLoadMore();
     let res = await pixabay.getImagesByQuery(searchString, pixabay.currentPage + 1);
     createGallery(res.hits);
     refs.progresslabel.textContent = `Downloaded ${pixabay.loadedPhotos} from ${pixabay.totalPhotos}`
     refs.progressBar.value = pixabay.loadedPhotos / pixabay.totalPhotos * 100;
     if (pixabay.currentPage < pixabay.maxPages) {
-        refs.loadMore.style.visibility = "visible";
+        showLoadMore();
     } else {
+        hideLoadMore();
         iziToast.error({ position: 'topRight', message: "We're sorry, but you've reached the end of search results." });
     }
 }

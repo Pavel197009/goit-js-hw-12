@@ -142,9 +142,9 @@
 .loader::after {
   content: '';
   box-sizing: border-box;
-  position: absolute;
-  left: 20px;
-  top: 31px;
+  position: fixed;
+  left: 40rem;
+  top: 5rem;
   border: 10px solid transparent;
   border-right-color: #FF3D00;
   transform: rotate(-40deg);

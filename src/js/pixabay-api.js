@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+axios.defaults.baseURL = 'https://pixabay.com/api/';    // URL-путь для запроса
+const API_KEY = '28194821-49041d995ecd04735d9e20d11';   // ключ для запроса
+const urlAXIOS = `?key=${API_KEY}`;                     // создаем строку поиска для запроса
+
 
 export class PixabayAPI {
   constructor() {
@@ -15,14 +19,11 @@ export class PixabayAPI {
       q: searchString,
       image_type: "photo",
       orientation: "horizontal",
-      safeSearch: true,
-      per_page: 15,
+      safesearch: true,
+      per_page: this.per_page,
       page: page,
     };
 
-    axios.defaults.baseURL = 'https://pixabay.com/api/';    // URL-путь для запроса
-    const API_KEY = '28194821-49041d995ecd04735d9e20d11';   // ключ для запроса
-    const urlAXIOS = `?key=${API_KEY}`;                     // создаем строку поиска для запроса
   // const urlAXIOS = `?key=${API_KEY}&q=${this.#query}&page=${this.#page}&per_page=${this.#per_page}`;
 
     const res = await axios.get(urlAXIOS, { params });

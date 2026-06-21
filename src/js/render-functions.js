@@ -75,6 +75,14 @@ export function showProgress() {                        // делаем прог
   refs.btnDown.style.visibility = 'visible';
 } 
 
+export function showLoadMore() {                        // делаем прогрессбар видимым
+  refs.loadMore.style.visibility = 'visible';
+} 
+
+export function hideLoadMore() {                        // делаем прогрессбар видимым
+  refs.loadMore.style.visibility = 'hidden';
+} 
+
 export function createLightBox() {                    // создание объекта SimpleLightBox
   lightBox = new SimpleLightbox('.gallery a', {
     captionsData: 'alt', captionPosition: 'bottom', captionDelay: 250
