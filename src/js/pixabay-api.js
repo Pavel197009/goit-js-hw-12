@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://pixabay.com/api';    // URL-путь для запроса
+axios.defaults.baseURL = 'https://pixabay.com/api/';    // URL-путь для запроса
 const API_KEY = '28194821-49041d995ecd04735d9e20d11';   // ключ для запроса
 const urlAXIOS = `?key=${API_KEY}`;                     // создаем строку поиска для запроса
 
