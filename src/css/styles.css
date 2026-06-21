@@ -126,13 +126,14 @@
 .loader {
   width: 48px;
   height: 48px;
-  left: 130px;
+  left: 40rem;
+  top: 5rem;
   border-width: 3px;
   border-style: dashed solid solid dotted;
   border-color: #FF3D00 #FF3D00 transparent #FF3D00;
   border-radius: 50%;
   display: inline-block;
-  position: relative;
+  position: fixed;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
   visibility: hidden;
